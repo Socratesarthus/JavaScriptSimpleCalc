@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator X</title>
+    <style>
+        div {
+            max-width: 240px;
+            margin: auto;
+            border-radius: 25px;
+            border: 2px solid #73AD21;
+            padding: 25px;
+        }
+    
+        .display_math {            
+            min-height: 65px;            
+            padding: 3px;
+            border: 2px solid red;
+            border-radius: 9px;
+            margin: auto;
+        }
+    
+        .button {
+            min-height: 35px;
+            min-width: 35px;
+            margin:2px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        Javasript Simple Calc:
+        <div>
+            <div class="display_math">
+                <span id="mainDisplay3">Display 3</span>
+                   <span id="mainDisplay2">Display 2</span>
+                <br>
+                <span id="mainDisplay">Display 1</span>
+            </div>
+            <br>
+            <input type="button" value="del" id="btndel" class="button">
+            <input type="button" value="reset" id="btnreset" class="button">
+            <br>
+            <input type="button" value="7" id="btn7" class="button">
+            <input type="button" value="8" id="btn8" class="button">
+            <input type="button" value="9" id="btn9" class="button">
+            <input type="button" value="+" id="btn+" class="button">
+            <br>
+            <input type="button" value="4" id="btn4" class="button">
+            <input type="button" value="5" id="btn5" class="button">
+            <input type="button" value="6" id="btn6" class="button">
+            <input type="button" value="-" id="btn-" class="button">
+            <br>
+            <input type="button" value="1" id="btn1" class="button">
+            <input type="button" value="2" id="btn2" class="button">
+            <input type="button" value="3" id="btn3" class="button">
+            <input type="button" value="*" id="btn*" class="button">
+            <br>
+            <input type="button" value="0" id="btn0" class="button">
+            <input type="button" value="." id="btn," class="button">
+            <input type="button" value="=" id="btn=" class="button">
+            <input type="button" value="/" id="btn/" class="button">
+        </div>
+    </div>
+
+    <script>
+
+        const memoCalcArray = [0];
+        let mainDisplayView="";
+                
+
+        function resetMainDisplay(){
+            
+            mainDisplayView = "";
+            document.getElementById("mainDisplay").innerHTML = mainDisplayView;
+
+            if (memoCalcArray.length >1) {
+                document.getElementById("mainDisplay2").innerHTML = memoCalcArray[memoCalcArray.length -1];
+            }
+            if (memoCalcArray.length >2) {
+                document.getElementById("mainDisplay3").innerHTML = memoCalcArray[memoCalcArray.length -2];
+            }                        
+        }
+        
+        function changeMainDisplay(numberClicked){
+            let x = numberClicked;
+            
+            if (x!= ".") {
+                mainDisplayView += numberClicked;
+                document.getElementById("mainDisplay").innerHTML = mainDisplayView;
+            }
+            else if (!mainDisplayView.includes(".")){
+                mainDisplayView += numberClicked;
+                document.getElementById("mainDisplay").innerHTML = mainDisplayView;
+            }
+            console.log("keyboard interactivite num: "+x);
+        }        
+
+        function btnReset(){
+            for(let i = memoCalcArray.length; i > 1; i--){
+                memoCalcArray.pop();
+            }
+            resetMainDisplay();
+            document.getElementById("mainDisplay2").innerHTML = "...";
+            document.getElementById("mainDisplay3").innerHTML = "...";
+            console.log("btn Reset is working");
+        }
+
+        function btnDelete(){
+            let x =  mainDisplayView.length;
+            let deleting = mainDisplayView.slice(0,(x-1));
+            mainDisplayView = deleting;
+            document.getElementById("mainDisplay").innerHTML = mainDisplayView;
+            console.log("btn Delete is working: ");
+        }
+
+        function btnOperatorsFunc(mathBtnInteractive) {            
+            console.log("btnOperatorsFunc is working! "+" "+mathBtnInteractive);
+            
+            switch (memoCalcArray[memoCalcArray.length -1]) {
+                
+                case "=":
+                    console.log("returned =")
+                    break;
+                case "+":
+                    memoCalcArray.push(Number(mainDisplayView));
+                    memoCalcArray.push("=");
+                    btnEquals();                    
+                    break;
+                case "-":                    
+                    memoCalcArray.push(Number(mainDisplayView));
+                    memoCalcArray.push("=");                    
+                    btnEquals();
+                    break;
+                case "*":
+                    memoCalcArray.push(Number(mainDisplayView));
+                    memoCalcArray.push("=");                    
+                    btnEquals();
+                    break;
+                case "/":
+                    memoCalcArray.push(Number(mainDisplayView));
+                    memoCalcArray.push("=");                    
+                    btnEquals();
+                    break;
+            
+                default:
+                    memoCalcArray.push(Number(mainDisplayView));
+                    memoCalcArray.push(mathBtnInteractive);
+                    break;
+            }
+            
+            
+            resetMainDisplay();
+        }        
+
+        function btnEquals(){
+            console.log("btnEquals is working!");
+
+            switch (memoCalcArray[memoCalcArray.length -1]) {
+                
+                case "=":
+                    console.log("returned =")
+                    break;
+                case "+":
+                    memoCalcArray.push(Number(mainDisplayView));
+                    memoCalcArray.push("=");                    
+                    break;
+                case "-":                    
+                    memoCalcArray.push(Number(mainDisplayView));
+                    memoCalcArray.push("=");                    
+                    break;
+                case "*":
+                    memoCalcArray.push(Number(mainDisplayView));
+                    memoCalcArray.push("=");                    
+                    break;
+                case "/":
+                    memoCalcArray.push(Number(mainDisplayView));
+                    memoCalcArray.push("=");                    
+                    break;
+            
+                default:
+                    console.log("first switch case is working");                    
+                    break;
+            }
+            
+            switch (memoCalcArray[memoCalcArray.length -3]) {
+                
+                case "=":
+                    console.log("returned =")
+                    break;
+                case "+":
+                    memoCalcArray.push(memoCalcArray[memoCalcArray.length -4]+memoCalcArray[memoCalcArray.length -2]);                                        
+                    break;
+                case "-":                    
+                    memoCalcArray.push(memoCalcArray[memoCalcArray.length -4]-memoCalcArray[memoCalcArray.length -2]);                    
+                    break;
+                case "*":
+                    memoCalcArray.push(memoCalcArray[memoCalcArray.length -4]*memoCalcArray[memoCalcArray.length -2]);                    
+                    break;
+                case "/":
+                    memoCalcArray.push(memoCalcArray[memoCalcArray.length -4]/memoCalcArray[memoCalcArray.length -2]);                    
+                    break;
+            
+                default:
+                    console.log("last item is: "+memoCalcArray[memoCalcArray.length -1])
+                    break;
+            }
+            resetMainDisplay();
+        }
+
+        // funcions started
+        document.getElementById("btn7").addEventListener("click", function(){ changeMainDisplay(7);})
+        document.getElementById("btn8").addEventListener("click", function(){ changeMainDisplay(8);})
+        document.getElementById("btn9").addEventListener("click", function(){ changeMainDisplay(9);})
+        document.getElementById("btn4").addEventListener("click", function(){ changeMainDisplay(4);})
+        document.getElementById("btn5").addEventListener("click", function(){ changeMainDisplay(5);})
+        document.getElementById("btn6").addEventListener("click", function(){ changeMainDisplay(6);})
+        document.getElementById("btn1").addEventListener("click", function(){ changeMainDisplay(1);})
+        document.getElementById("btn2").addEventListener("click", function(){ changeMainDisplay(2);})
+        document.getElementById("btn3").addEventListener("click", function(){ changeMainDisplay(3);})
+        document.getElementById("btn0").addEventListener("click", function(){ changeMainDisplay(0);})
+        document.getElementById("btn,").addEventListener("click", function(){ changeMainDisplay(".");})
+
+        document.getElementById("btn+").addEventListener("click", function(){btnOperatorsFunc("+");})
+        document.getElementById("btn-").addEventListener("click", function(){btnOperatorsFunc("-");})
+        document.getElementById("btn*").addEventListener("click", function(){btnOperatorsFunc("*");})
+        document.getElementById("btn/").addEventListener("click", function(){btnOperatorsFunc("/");})
+
+        document.getElementById("btn=").addEventListener("click", function(){btnEquals();})
+        document.getElementById("btnreset").addEventListener("click", function(){btnReset();})
+        document.getElementById("btndel").addEventListener("click", function(){btnDelete();})    
+        
+    </script>
+</body>
+</html>
